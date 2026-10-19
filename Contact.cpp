@@ -122,6 +122,14 @@ void Contact::show()
 	cout << FullName << "|" << HousePhone << "|" << MobilePhone << "|" << WorkPhone << "|" << infoAboutContact;
 }
 
+void Contact::CopyFrom(const Contact& other)
+{
+	SetFullName(other.getFullName());
+	SetHousePhone(other.getHousePhone());
+	SetMobilePhone(other.getMobilePhone());
+	SetWorkPhone(other.getWorkPhone());
+	SetinfoAboutContact(other.getinfoAboutContact());
+}
 
 Contact::~Contact()
 {

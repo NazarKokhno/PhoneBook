@@ -128,7 +128,80 @@ void SearchContact(Contact contacts[], int globalQuantity)
 
 
 }
+void DeleteContact(Contact contacts[], int& globalQuantity)
+{
+	char FullNameforSearch[100];
 
+	int count = 0;
+
+	cout << "Enter full name: ";
+	cin.getline(FullNameforSearch, 100);
+
+
+	for (int i = 0; i < globalQuantity; i++)
+	{
+		if (_stricmp(contacts[i].getFullName(), FullNameforSearch) == 0)
+		{
+			count++;
+		}
+	}
+
+	if (count == 0)
+	{
+		cout << "Contact not found." << endl;
+		return;
+	}
+
+
+	int* indexes = new int[count];
+
+
+	int j = 0;
+
+	for (int i = 0; i < globalQuantity; i++)
+	{
+		if (_stricmp(contacts[i].getFullName(), FullNameforSearch) == 0)
+		{
+			indexes[j] = i;
+			j++;
+		}
+	}
+
+
+	for (int i = 0; i < count; i++)
+	{
+		cout << i + 1 << ". ";
+		contacts[indexes[i]].show();
+		cout << endl;
+	}
+
+	int choice;
+	cout << "Enter contact number to delete: ";
+	cin >> choice;
+	cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+	if (choice < 1 || choice > count)
+	{
+		cout << "Invalid choice!" << endl;
+		delete[] indexes;
+		return;
+	}
+
+	int contactIndex = indexes[choice - 1];
+
+	for (int i = contactIndex; i < globalQuantity - 1; i++)
+	{
+		contacts[i].CopyFrom(contacts[i + 1]);
+	}
+
+	globalQuantity--;
+
+	delete[] indexes;
+
+	cout << "Contact deleted!" << endl;
+	SaveAll(contacts, globalQuantity);
+
+}
 void ShowAllContacts(Contact contacts[], int globalQuantity)
 {
 	cout << endl;
@@ -177,6 +250,7 @@ void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 
 		case 2:
 		{
+			DeleteContact(contacts, globalQuantity);
 			break;
 		}
 

@@ -12,6 +12,8 @@ public:
 	Contact();
 	Contact(const char* FullName, const char* HousePhone, const char* MobilePhone, const char* WorkPhone, const char* infoAboutContact);
 	Contact(const char* FullName);
+
+	void CopyFrom(const Contact& other);
 	void show();
 	
 	const char* getFullName() const;
