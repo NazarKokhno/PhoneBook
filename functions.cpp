@@ -36,6 +36,112 @@ void SaveAll(Contact contacts[], int globalQuantity)
 
 	cout << "Saved" << endl;
 }
+void AddContact(Contact contacts[], int ARR_SIZE, int& globalQuantity)
+{
+	int choice1;
+
+	do
+	{
+		int i = globalQuantity;
+
+		if (i >= ARR_SIZE)
+		{
+			cout << "Contact list is full!" << endl;
+			break;
+		}
+
+		cout << "Enter full name: ";
+		char name[100];
+		cin.getline(name, 100);
+		contacts[i].SetFullName(name);
+
+		cout << "Enter home phone: ";
+		char HP[PHONENUM_SIZE];
+		cin.getline(HP, PHONENUM_SIZE);
+		contacts[i].SetHousePhone(HP);
+
+		cout << "Enter mobile phone: ";
+		char MP[PHONENUM_SIZE];
+		cin.getline(MP, PHONENUM_SIZE);
+		contacts[i].SetMobilePhone(MP);
+
+		cout << "Enter work phone: ";
+		char WP[PHONENUM_SIZE];
+		cin.getline(WP, PHONENUM_SIZE);
+		contacts[i].SetWorkPhone(WP);
+
+		cout << "Enter contact's info: ";
+		char info[100];
+		cin.getline(info, 100);
+		contacts[i].SetinfoAboutContact(info);
+
+		globalQuantity++;
+
+		cout << "Contact added!" << endl;
+		cout << "Save? (0 - No, 1 - Yes)" << endl;
+
+		int choiceS;
+		cout << "Your choice: ";
+		cin >> choiceS;
+		cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+		if (choiceS == 1)
+		{
+			SaveAll(contacts, globalQuantity);
+		}
+
+		cout << "Enter 0 to stop or 1 to add another contact: ";
+		cin >> choice1;
+		cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+	} while (choice1 != 0);
+}
+void SearchContact(Contact contacts[], int globalQuantity)
+{
+	char FullNameforSearch[100];
+
+	int quantityFound = 0;
+
+	cout << "Enter full name: ";
+	cin.getline(FullNameforSearch, 100);
+
+	for (int i = 0; i < globalQuantity; i++)
+	{
+		if (_stricmp(contacts[i].getFullName(), FullNameforSearch) == 0)
+		{
+			quantityFound++;
+		}
+	}
+	
+	cout << endl;
+	cout << "Found: " << quantityFound << endl;
+	
+	for (int i = 0; i < globalQuantity; i++)
+	{
+		if (_stricmp(contacts[i].getFullName(), FullNameforSearch) == 0)
+		{
+			contacts[i].show();
+			cout << endl;
+		}
+	}
+	cout << endl;
+
+
+}
+
+void ShowAllContacts(Contact contacts[], int globalQuantity)
+{
+	cout << endl;
+
+	for (int i = 0; i < globalQuantity; i++)
+	{
+		contacts[i].show();
+		cout << endl;
+	}
+
+	cout << endl;
+}
+
 
 
 void ShowMenu()
@@ -64,68 +170,9 @@ void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 		{
 		case 1:
 		{
-			int choice1;
-			do
-			{
-				int i = globalQuantity;
-
-				if (i >= ARR_SIZE)
-				{
-					cout << "Contact list is full!" << endl;
-					break;
-				}
-
-
-				cout << "Enter full name: ";
-
-				char name[100];
-				cin.getline(name, 100);
-				contacts[i].SetFullName(name);
-
-
-				cout << "Enter home phone: ";
-				char HP[PHONENUM_SIZE];
-				cin.getline(HP, PHONENUM_SIZE);
-				contacts[i].SetHousePhone(HP);
-
-				cout << "Enter mobile phone: ";
-				char MP[PHONENUM_SIZE];
-				cin.getline(MP, PHONENUM_SIZE);
-				contacts[i].SetMobilePhone(MP);
-
-				cout << "Enter work phone: ";
-				char WP[PHONENUM_SIZE];
-				cin.getline(WP, PHONENUM_SIZE);
-				contacts[i].SetWorkPhone(WP);
-
-				cout << "Enter contact's info: ";
-				char info[100];
-				cin.getline(info, 100);
-				contacts[i].SetinfoAboutContact(info);
-
-				globalQuantity++;
-
-				cout << "Contact added!" << endl;
-				cout << "Save ? (0 - No, 1 - Yes)";
-
-				int choiceS;
-				cout << "Your choice: ";
-				cin >> choiceS;
-				cin.ignore();
-
-				if (choiceS == 1)
-				{
-					SaveAll(contacts, globalQuantity);
-				}
-
-
-				cout << "Enter 0 to stop or 1 to add another contact: ";
-				cin >> choice1;
-				cin.ignore();
-
-			} while (choice1 != 0);
-
+			AddContact(contacts, ARR_SIZE, globalQuantity);
 			break;
+
 		}
 
 		case 2:
@@ -135,18 +182,14 @@ void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 
 		case 3:
 		{
+
+			SearchContact(contacts, globalQuantity);
 			break;
 		}
 
 		case 4:
 		{
-			cout << endl;
-			for (int i = 0; i < globalQuantity; i++)
-			{
-				contacts[i].show();
-				cout << endl;
-			}
-
+			ShowAllContacts(contacts, globalQuantity);
 			break;
 		}
 
