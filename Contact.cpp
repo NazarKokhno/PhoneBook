@@ -15,7 +15,6 @@ Contact::Contact(const char* FullName):Contact(FullName, "No phone", "No phone",
 
 }
 
-
 Contact::Contact(const char* FullName, const char* HousePhone, const char* MobilePhone, const char* WorkPhone, const char* infoAboutContact)
 {
 
