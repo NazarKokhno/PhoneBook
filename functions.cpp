@@ -51,7 +51,7 @@ void ShowMenu()
 void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 {
 	int choice;
-	do
+	while(true)
 	{
 		ShowMenu();
 
@@ -140,13 +140,23 @@ void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 
 		case 4:
 		{
-
+			cout << endl;
+			for (int i = 0; i < globalQuantity; i++)
+			{
+				contacts[i].show();
+				cout << endl;
+			}
 
 			break;
 		}
 
 		case 5:
 		{
+			break;
+		}
+		case 0:
+		{
+			cout << "Goodbye!" << endl;
 			break;
 		}
 
@@ -156,6 +166,8 @@ void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 
 		}
 	
-} while (choice != 0);
+		if (choice == 0)
+			break;
+	} 
 
 }

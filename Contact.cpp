@@ -117,13 +117,10 @@ void Contact::SetinfoAboutContact(const char* info)
 	infoAboutContact = newInfo;
 }
 
-
-
 void Contact::show()
 {
 	cout << FullName << "|" << HousePhone << "|" << MobilePhone << "|" << WorkPhone << "|" << infoAboutContact;
 }
-
 
 
 Contact::~Contact()
