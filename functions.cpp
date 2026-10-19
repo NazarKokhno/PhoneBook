@@ -39,7 +39,6 @@ void SaveAll(Contact contacts[], int globalQuantity)
 void AddContact(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 {
 	int choice1;
-
 	do
 	{
 		int i = globalQuantity;
@@ -49,7 +48,6 @@ void AddContact(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 			cout << "Contact list is full!" << endl;
 			break;
 		}
-
 		cout << "Enter full name: ";
 		char name[100];
 		cin.getline(name, 100);
@@ -77,7 +75,7 @@ void AddContact(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 
 		globalQuantity++;
 
-		cout << "Contact added!" << endl;
+		cout << "\nContact added!" << endl;
 		cout << "Save? (0 - No, 1 - Yes)" << endl;
 
 		int choiceS;
@@ -112,7 +110,6 @@ void SearchContact(Contact contacts[], int globalQuantity)
 			quantityFound++;
 		}
 	}
-	
 	cout << endl;
 	cout << "Found: " << quantityFound << endl;
 	
@@ -125,8 +122,6 @@ void SearchContact(Contact contacts[], int globalQuantity)
 		}
 	}
 	cout << endl;
-
-
 }
 void DeleteContact(Contact contacts[], int& globalQuantity)
 {
@@ -136,7 +131,6 @@ void DeleteContact(Contact contacts[], int& globalQuantity)
 
 	cout << "Enter full name: ";
 	cin.getline(FullNameforSearch, 100);
-
 
 	for (int i = 0; i < globalQuantity; i++)
 	{
@@ -155,7 +149,6 @@ void DeleteContact(Contact contacts[], int& globalQuantity)
 
 	int* indexes = new int[count];
 
-
 	int j = 0;
 
 	for (int i = 0; i < globalQuantity; i++)
@@ -166,7 +159,6 @@ void DeleteContact(Contact contacts[], int& globalQuantity)
 			j++;
 		}
 	}
-
 
 	for (int i = 0; i < count; i++)
 	{
@@ -198,7 +190,7 @@ void DeleteContact(Contact contacts[], int& globalQuantity)
 
 	delete[] indexes;
 
-	cout << "Contact deleted!" << endl;
+	cout << "\nContact deleted!" << endl;
 	SaveAll(contacts, globalQuantity);
 
 }
@@ -212,14 +204,66 @@ void ShowAllContacts(Contact contacts[], int globalQuantity)
 		cout << endl;
 	}
 
+	cout << "It`s all!" << endl;
+
 	cout << endl;
 }
+bool LoadContactFromFile(Contact contacts[], int ARR_SIZE,int& globalQuantity, bool quikCheck)
+{
+	if (quikCheck)
+	{
+		cout << "Already synchronized" << endl;
+		return false;
+	}
 
+	FILE* f = fopen("contactsData.txt", "r");
 
+	if (f == NULL)
+	{
+		perror("Error opening file");
+		return false;
+	}
+
+	char line[500];
+
+	while (fgets(line, sizeof(line), f) != NULL)
+	{
+		if (globalQuantity >= ARR_SIZE)
+		{
+			cout << "Contact list is full!" << endl;
+			break;
+		}
+
+		char* name = strtok(line, "|");
+		char* HP = strtok(NULL, "|");
+		char* MP = strtok(NULL, "|");
+		char* WP = strtok(NULL, "|");
+		char* info = strtok(NULL, "\r\n");
+
+		if (name == NULL || HP == NULL || MP == NULL ||
+			WP == NULL || info == NULL)
+		{
+			continue;
+		}
+
+		contacts[globalQuantity].SetFullName(name);
+		contacts[globalQuantity].SetHousePhone(HP);
+		contacts[globalQuantity].SetMobilePhone(MP);
+		contacts[globalQuantity].SetWorkPhone(WP);
+		contacts[globalQuantity].SetinfoAboutContact(info);
+
+		globalQuantity++;
+	}
+	
+	fclose(f);
+	cout << "Contacts loaded" << endl;
+	return true;
+
+}
 
 void ShowMenu()
 {
-	cout << "1 - Add new contact" << endl;
+	cout << "\n1 - Add new contact" << endl;
 	cout << "2 - Delete contact" << endl;
 	cout << "3 - Search by full name" << endl;
 	cout << "4 - Show all local contacts" << endl;
@@ -229,8 +273,38 @@ void ShowMenu()
 
 void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 {
+	
+	bool quickCheck = false;
+
+	if (globalQuantity == 0)
+	{
+		int choice;
+		cout << "There are no contacts in your new profile yet. Would you like to sync local accounts with the app?" << endl;
+		cout << "0 - No, 1 - Yes" << endl;
+		cout << "Your choice: ";
+		cin >> choice;
+		cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+
+		switch (choice)
+		{
+		case 1:
+			quickCheck = LoadContactFromFile(
+				contacts, ARR_SIZE, globalQuantity, quickCheck);
+			break;
+		
+		case 0:
+			break;
+		
+		default:
+			cout << "Invalid input!" << endl;
+			break;
+
+		}
+	}
+	
 	int choice;
 	while(true)
+
 	{
 		ShowMenu();
 
@@ -269,6 +343,9 @@ void menu(Contact contacts[], int ARR_SIZE, int& globalQuantity)
 
 		case 5:
 		{
+
+			quickCheck = LoadContactFromFile(
+				contacts, ARR_SIZE, globalQuantity, quickCheck);
 			break;
 		}
 		case 0:
