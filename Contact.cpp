@@ -40,13 +40,88 @@ Contact::Contact(const char* FullName, const char* HousePhone, const char* Mobil
 	strcpy_s(this->infoAboutContact, strlen(infoAboutContact) + 1, infoAboutContact);
 
 }
+
+const char* Contact::getFullName() const
+{
+	return FullName;
+}
+
+const char* Contact::getHousePhone() const
+{
+	return HousePhone;
+}
+
+const char* Contact::getMobilePhone() const
+{
+	return MobilePhone;
+}
+
+const char* Contact::getWorkPhone() const
+{
+	return WorkPhone;
+}
+
+const char* Contact::getinfoAboutContact() const
+{
+	return infoAboutContact;
+}
+
+void Contact::SetFullName(const char* name)
+{
+	char* newName = new char[strlen(name) + 1];
+	strcpy_s(newName, strlen(name) + 1, name);
+
+	delete[] FullName;
+	FullName = newName;
+}
+
+void Contact::SetHousePhone(const char* housePhone)
+{
+	if (strlen(housePhone) >= PHONENUM_SIZE)
+	{
+		strcpy_s(HousePhone, PHONENUM_SIZE, "No phone");
+		return;
+	}
+
+	strcpy_s(HousePhone, PHONENUM_SIZE, housePhone);
+}
+
+void Contact::SetMobilePhone(const char* mobilePhone)
+{
+	if (strlen(mobilePhone) >= PHONENUM_SIZE)
+	{
+		strcpy_s(MobilePhone, PHONENUM_SIZE, "No phone");
+		return;
+	}
+
+	strcpy_s(MobilePhone, PHONENUM_SIZE, mobilePhone);
+}
+
+void Contact::SetWorkPhone(const char* workPhone)
+{
+	if (strlen(workPhone) >= PHONENUM_SIZE)
+	{
+		strcpy_s(WorkPhone, PHONENUM_SIZE, "No phone");
+		return;
+	}
+
+	strcpy_s(WorkPhone, PHONENUM_SIZE, workPhone);
+}
+
+void Contact::SetinfoAboutContact(const char* info)
+{
+	char* newInfo = new char[strlen(info) + 1];
+	strcpy_s(newInfo, strlen(info) + 1, info);
+
+	delete[] infoAboutContact;
+	infoAboutContact = newInfo;
+}
+
+
+
 void Contact::show()
 {
-	cout << "Full name: " << FullName << endl;
-	cout << "Home phone: " << HousePhone << endl;
-	cout << "Mobile phone: " << MobilePhone << endl;
-	cout << "Work phone: " << WorkPhone << endl;
-	cout << "Info: " << infoAboutContact << endl;
+	cout << FullName << "|" << HousePhone << "|" << MobilePhone << "|" << WorkPhone << "|" << infoAboutContact;
 }
 
 

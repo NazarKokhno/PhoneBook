@@ -1,11 +1,12 @@
 #pragma once
+#include "constants.h"
 class Contact
 {
 private:
 	char* FullName;
-	char HousePhone[17];
-	char MobilePhone[17];
-	char WorkPhone[17];
+	char HousePhone[PHONENUM_SIZE];
+	char MobilePhone[PHONENUM_SIZE];
+	char WorkPhone[PHONENUM_SIZE];
 	char* infoAboutContact;
 public:
 	Contact();
@@ -13,10 +14,17 @@ public:
 	Contact(const char* FullName);
 	void show();
 	
-	const char* getFullName() const
-	{
-		return FullName;
-	}
+	const char* getFullName() const;
+	const char* getHousePhone() const;
+	const char* getMobilePhone() const;
+	const char* getWorkPhone() const;
+	const char* getinfoAboutContact() const;
+
+	void SetFullName(const char* name);
+	void SetHousePhone(const char* housePhone);
+	void SetMobilePhone(const char* mobilePhone);
+	void SetWorkPhone(const char* workPhone);
+	void SetinfoAboutContact(const char* info);
 
 	~Contact();
 
